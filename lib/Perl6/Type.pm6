@@ -1,4 +1,4 @@
-use v6;
+use v6.c;
 
 class Perl6::Type {
     has Str $.name handles <Str>;

@@ -1,5 +1,8 @@
 use Perl6::Type;
-class Perl6::TypeGraph {
+
+unit module Perl6::TypeGraph:ver<0.0.1>;
+
+class Perl6::TypeGraph is export {
     has %.types;
     has @.sorted;
     my grammar Decl {
