@@ -8,11 +8,96 @@ Perl6::TypeGraph - Generates a TypeGraph of Perl6 Types from a file.
 
 ```perl6
 use Perl6::TypeGraph;
+
+# create and initialize it
+my $tg = Perl6::TypeGraph.new-from-file("./resources/type-graph.txt");
+
+# and use it!
+say $tg.sorted;
+
 ```
 
 # DESCRIPTION
 
 Perl6::TypeGraph - Generates a TypeGraph of Perl6 Types from a file.
+
+### File syntax
+
+```
+
+[ Category ]
+# only one-line comments are supported
+packagetype typename[role-signature]
+packagetype typename[role-signature] is typename[role-signature] # inheritance
+packagetype typename[role-signature] does typename[role-signature] # roles
+
+[ Another cateogory ]
+...
+```
+
+- Supported categories: `Metamodel`, `Domain-specific`, `Basic`, `Composite`, `Exceptions` and `Core`.
+- Supported packagetypes: `class`, `module`, `role` and `enum`.
+- Supported typenames: whatever string following the syntax `class1::class2::class3 ...`.
+- `[role-signature]` is not processed, but you can add it anyway.
+- If your type inherits from more than one type or implements several roles, you can add more `is`
+- and `does` statements (separated by spaces).
+
+Example:
+
+```
+[Metamodel]
+# Metamodel
+class Metamodel::Archetypes
+role  Metamodel::AttributeContainer
+class Metamodel::GenericHOW       does Metamodel::Naming
+class Metamodel::MethodDispatcher is Metamodel::BaseDispatcher is Another::Something
+enum  Bool                          is Int
+module Test
+```
+
+### Perl6::TypeGraph
+
+### has %.types
+
+Hash of `Perl6::Type` objects. They key is the class/role name. This hash
+can be initialized by calling `new-from-file` or `parse-from-file`.
+
+### has @.sorted
+
+List of all classes and roles found, sorted using `topo-sort`.
+
+Example: `@.sorted = [Any, Metamodel, Mu, X::Control ]`
+
+#### method new-from-file
+
+```perl6
+method new-from-file(
+    Str $fn
+) returns Perl6::TypeGraph
+```
+
+Creates a new instance of `Perl6::TypeGraph` and calls
+`parse-from-file`.
+
+#### method parse-from-file
+
+```perl6
+method parse-from-file(
+    Str $fn
+) returns Any
+```
+
+Use a internal grammar (`Decl`) to parse the content of `$fn` line by
+line. The format that the file must follow is specified above.
+
+#### method !topo-sort
+
+```perl6
+method !topo-sort () returns Any
+```
+
+Iterates every type in `%.types` (after sort them by name). It makes the same
+with all elements in `.super` and `.roles` recursively.
 
 # AUTHOR
 
