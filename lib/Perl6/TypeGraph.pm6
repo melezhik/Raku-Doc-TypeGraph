@@ -3,32 +3,30 @@ use Perl6::Type;
 unit module Perl6::TypeGraph:ver<0.0.1>;
 
 class Perl6::TypeGraph is export {
-    has %.types;
-    has @.sorted;
+    has %.types;  # format: $name => Perl6::Type
+    has @.sorted; # array of names (Str)
     my grammar Decl {
-        token ident      { <.alpha> \w*                }
-        token apostrophe { <[ ' \- ]>                  }
+        token ident      { <.alpha> \w*                         }
+        token apostrophe { <[ ' \- ]>                           }
         token identifier { <.ident> [ <.apostrophe> <.ident> ]* }
-        token longname   { <identifier>+ % '::'        }
-        token scoped     { 'my' | 'our' | 'has'        }
-        token package    { pmclass | class | module | package |role | enum }
-        token rolesig    { '[' <-[ \[\] ]>* ']' } # TODO might need to be become better
-        rule  inherits   { 'is' <longname>             }
-        rule  roles      { 'does' <longname><rolesig>? }
-        rule  aka        { 'aka' <longname> }
+        token longname   { <identifier>+ % '::'                 }
+        token package    { class | module | role | enum         }
+        token rolesig    { '[' <-[ \[\] ]>* ']'                 } 
+        rule  inherits   { 'is' <longname>                      }
+        rule  roles      { 'does' <longname><rolesig>?          }
 
         rule TOP {
             ^
-            <scoped>?
             <package>
             <type=longname><rolesig>?
             :my $*CURRENT_TYPE;
             { $*CURRENT_TYPE = $<type>.ast }
-            [ <inherits> | <roles> | <aka> ]*
+            [ <inherits> | <roles> ]*
             $
         }
     }
 
+    # constructor
     method new-from-file($fn) {
         my $n = self.bless;
         $n.parse-from-file($fn);
@@ -41,33 +39,39 @@ class Perl6::TypeGraph is export {
             %.types{$name} //= Perl6::Type.new(:$name);
         };
         my class Actions {
-            method longname($/) {
+            method longname($/) { # Name::Of::The::Type
                 make $get-type($/.Str);
             }
-            method inherits($/) {
+            method inherits($/) { # is Something
                 $*CURRENT_TYPE.super.append: $<longname>.ast;
             }
-            method roles($/) {
+            method roles($/) { # does Something
                 $*CURRENT_TYPE.roles.append: $<longname>.ast;
             }
-            method aka($/) {
-                $*CURRENT_TYPE.aka = $<longname>.ast;
-            }
+
         }
+
         my @categories;
         for $f.lines -> $l {
+            # ignore comments
             next if $l ~~ / ^ '#' /;
+
+            # ignore empty lines
             if $l ~~ / ^ \s* $ / {
                 @categories = Empty;
                 next;
             }
+
+            # new [category] 
             if $l ~~ / :s ^ '[' (\S+) + ']' $/ {
                 @categories = @0>>.lc;
                 next;
             }
+
+            # normal line
             my $m = Decl.parse($l, :actions(Actions.new));
             my $t = $m<type>.ast;
-            $t.packagetype = ~$m<package>;
+            $t.packagetype = ~$m<package>; # class module role or enum
             $t.categories = @categories;
         }
         for %.types.values -> $t {
@@ -80,18 +84,28 @@ class Perl6::TypeGraph is export {
                 $t.super.append: $r.super if $r.super;
                 @roles.append: $r.roles if $r.roles;
             }
+
             # non-roles default to superclass Any
             if $t.packagetype ne 'role' && !$t.super && $t ne 'Mu' {
                 $t.super.append: $get-type('Any');
             }
         }
-        # Cache the inversion of all type relationships
+
+        # this for loop initializes sub and doers attributes 
+        # of every Perl6::Type object in %.types in order to
+        # cache the inversion of all type relationships
         for %.types.values -> $t {
             $_.sub.append($t)   for $t.super;
             $_.doers.append($t) for $t.roles;
         }
+
         self!topo-sort;
     }
+
+    # this method takes all Perl6::Type objects in %.types
+    # and sort them by its name. After that, recursively,
+    # add all roles and supers in the object to @!sorted by 
+    # appearance order.
     method !topo-sort {
         my %seen;
         sub visit($n) {
