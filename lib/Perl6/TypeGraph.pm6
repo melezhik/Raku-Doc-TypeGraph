@@ -1,30 +1,11 @@
 use Perl6::Type;
+use Perl6::TypeGraph::Decl;
 
 unit class Perl6::TypeGraph;
 
 has %.types;  # format: $name => Perl6::Type
 has @.sorted; # array of names (Str)
 
-my grammar Decl {
-    token ident      { <.alpha> \w*                         }
-    token apostrophe { <[ ' \- ]>                           }
-    token identifier { <.ident> [ <.apostrophe> <.ident> ]* }
-    token longname   { <identifier>+ % '::'                 }
-    token package    { class | module | role | enum         }
-    token rolesig    { '[' <-[ \[\] ]>* ']'                 } 
-    rule  inherits   { 'is' <longname>                      }
-    rule  roles      { 'does' <longname><rolesig>?          }
-
-    rule TOP {
-        ^
-        <package>
-        <type=longname><rolesig>?
-        :my $*CURRENT_TYPE;
-        { $*CURRENT_TYPE = $<type>.ast }
-        [ <inherits> | <roles> ]*
-        $
-    }
-}
 
 # constructor
 method new-from-file($fn) {
@@ -70,7 +51,7 @@ method parse-from-file($fn) {
         }
 
         # normal line
-        my $m = Decl.parse($l, :actions(Actions.new));
+        my $m = Perl6::TypeGraph::Decl.parse($l, :actions(Actions.new));
         my $t = $m<type>.ast;
         $t.packagetype = ~$m<package>; # class module role or enum
         $t.categories = @categories;

@@ -55,6 +55,8 @@ enum  Bool                          is Int
 module Test
 ```
 
+This file is parsed with the `Perl6::TypeGraph::Decl` grammar.
+
 ### Perl6::TypeGraph
 
 ### has %.types
