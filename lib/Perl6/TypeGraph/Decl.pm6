@@ -13,9 +13,7 @@ rule  roles      { 'does' <longname><rolesig>?          }
 rule TOP {
     ^
     <package>
-    <type=longname><rolesig>?
-    :my $*CURRENT_TYPE;
-    { $*CURRENT_TYPE = $<type>.ast }
+    <longname><rolesig>?
     [ <inherits> | <roles> ]*
     $
 }

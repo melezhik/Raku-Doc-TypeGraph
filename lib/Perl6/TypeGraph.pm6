@@ -1,5 +1,6 @@
 use Perl6::Type;
 use Perl6::TypeGraph::Decl;
+use Perl6::TypeGraph::DeclActions;
 
 unit class Perl6::TypeGraph;
 
@@ -16,23 +17,9 @@ method new-from-file($fn) {
 
 method parse-from-file($fn) {
     my $f = open $fn;
+    
     %!types{"Any"} = Perl6::Type.new(:name("Any"));
-    my $get-type = -> Str $name {
-        %!types{$name} //= Perl6::Type.new(:$name);
-    };
-    my class Actions {
-        method longname($/) { # Name::Of::The::Type
-            make $get-type($/.Str);
-        }
-        method inherits($/) { # is Something
-            $*CURRENT_TYPE.super.append: $<longname>.ast;
-        }
-        method roles($/) { # does Something
-            $*CURRENT_TYPE.roles.append: $<longname>.ast;
-        }
-
-    }
-
+    
     my @categories;
     for $f.lines -> $l {
         # ignore comments
@@ -50,11 +37,16 @@ method parse-from-file($fn) {
             next;
         }
 
-        # normal line
-        my $m = Perl6::TypeGraph::Decl.parse($l, :actions(Actions.new));
-        my $t = $m<type>.ast;
-        $t.packagetype = ~$m<package>; # class module role or enum
+        # parse line
+        my $m = Perl6::TypeGraph::Decl.parse($l, :actions(Perl6::TypeGraph::DeclActions.new)).actions;
+        
+        # initialize the type
+        my $t = %!types{$m.type} //= Perl6::Type.new(:name($m.type));
+        $t.packagetype = $m.packagetype;
         $t.categories = @categories;
+        $t.super =  $m.super.map( {%!types{$_}:!exists ?? %!types{$_} !! Perl6::Type.new(:name($_))} );        
+        $t.roles =  $m.role.map( {%!types{$_}:!exists ?? %!types{$_} !! Perl6::Type.new(:name($_))} );
+
     }
     for %!types.values -> $t {
         # roles that have a superclass actually apply that superclass
@@ -69,7 +61,7 @@ method parse-from-file($fn) {
 
         # non-roles default to superclass Any
         if $t.packagetype ne 'role' && !$t.super && $t ne 'Mu' {
-            $t.super.append: $get-type('Any');
+            $t.super.append: %!types<Any>;
         }
     }
 
