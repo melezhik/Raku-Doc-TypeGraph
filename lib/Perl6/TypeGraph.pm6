@@ -41,11 +41,18 @@ method parse-from-file($fn) {
         my $m = Perl6::TypeGraph::Decl.parse($l, :actions(Perl6::TypeGraph::DeclActions.new)).actions;
         
         # initialize the type
-        my $t = %!types{$m.type} //= Perl6::Type.new(:name($m.type));
-        $t.packagetype = $m.packagetype;
-        $t.categories = @categories;
-        $t.super =  $m.super.map( {%!types{$_}:!exists ?? %!types{$_} !! Perl6::Type.new(:name($_))} );        
-        $t.roles =  $m.role.map( {%!types{$_}:!exists ?? %!types{$_} !! Perl6::Type.new(:name($_))} );
+        my $type = %!types{$m.type} //= Perl6::Type.new(:name($m.type));
+        $type.packagetype = $m.packagetype;
+        $type.categories = @categories;
+
+        for $m.super -> $t {
+            %!types{$t} //= Perl6::Type.new(:name($t));
+            $type.super.append: %!types{$t};
+        }
+        for $m.role -> $t {
+            %!types{$t} //= Perl6::Type.new(:name($t));
+            $type.roles.append: %!types{$t};
+        }
 
     }
     for %!types.values -> $t {
@@ -78,8 +85,7 @@ method parse-from-file($fn) {
 
 # this method takes all Perl6::Type objects in %.types
 # and sort them by its name. After that, recursively,
-# add all roles and supers in the object to @!sorted by 
-# appearance order.
+# add all roles and supers in the object to @!sorted
 method !topo-sort {
     my %seen;
     sub visit($n) {
