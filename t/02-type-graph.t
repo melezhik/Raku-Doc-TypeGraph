@@ -13,7 +13,7 @@ my $test-type-graph-file-path = "t/test-type-graph.txt"??"t/test-type-graph.txt"
 
 my $tg = Perl6::TypeGraph.new-from-file($test-type-graph-file-path);
 
-{ # supported values
+subtest { 
     is $tg.types.values».categories.flat.unique.sort, 
     @categories,
     "All supported categories detected";
@@ -25,7 +25,7 @@ my $tg = Perl6::TypeGraph.new-from-file($test-type-graph-file-path);
     is $tg.types.values.sort,
     @types,
     "All types detected";
-}
+}, "Supported values";
 
 { # inhteritance
     is $tg.types<C>.super[0].name, "Any", "Default inheritance to Any";
