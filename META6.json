@@ -14,6 +14,5 @@
   "resources": ["type-graph.txt", "test-type-graph.txt"],
   "source-url": "https://github.com/antoniogamiz/Perl6-TypeGraph.git",
   "tags": [],
-  "test-depends": ["Test::META"],
   "version": "0.0.1"
 }
