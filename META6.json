@@ -1,7 +1,8 @@
 {
   "authors": ["Antonio", "@moritz"],
   "build-depends": [],
-  "depends": [],
+    "depends": [],
+    "test-depends": ["Test::META"],
   "description": "Generates a TypeGraph",
   "license": "Artistic-2.0",
   "name": "Perl6::TypeGraph",
