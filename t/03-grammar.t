@@ -18,16 +18,12 @@ $g = Perl6::TypeGraph::Decl.parse("   ", :actions(Perl6::TypeGraph::DeclActions.
     is Any, Any, "Empty lines";
 }
 
-{ # supported packages
-    $g = Perl6::TypeGraph::Decl.parse("class Test", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.packagetype, "class", " class package detected";
-    $g = Perl6::TypeGraph::Decl.parse("module Test", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.packagetype, "module", "module package detected";
-    $g = Perl6::TypeGraph::Decl.parse("role Test", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.packagetype, "role", "role package detected";
-    $g = Perl6::TypeGraph::Decl.parse("enum Test", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.packagetype, "enum", "enum package detected";
-}
+subtest {
+    test-parse("class Test", "class", "class package detected");
+    test-parse("module Test",  "module", "module package detected");
+    test-parse("role Test", "role", "role package detected");
+    test-parse("enum Test",  "enum", "enum package detected");
+}, "Test package types";
 
 { # typename with and without signature
     $g = Perl6::TypeGraph::Decl.parse("class A[T::U]", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
@@ -53,3 +49,8 @@ $g = Perl6::TypeGraph::Decl.parse("   ", :actions(Perl6::TypeGraph::DeclActions.
 }
 
 done-testing;
+
+sub test-parse( $str, $expected, $message ) {
+    $g = Perl6::TypeGraph::Decl.parse($str, :actions(Perl6::TypeGraph::DeclActions.new)).actions;
+    is $g.packagetype, $expected, $message;
+}
