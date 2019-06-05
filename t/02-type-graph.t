@@ -9,9 +9,11 @@ my @categories = ["basic", "composite", "core", "domain-specific", "exceptions",
 my @packages = ["class", "enum", "module", "role"]; 
 my @types = ["Any", "Attribute", "Bool", "C", "C::A", "C::B", "C::C", "R", "R::A", "R::B", "R::C", "Seq", "Test"];
 
-my $tg = Perl6::TypeGraph.new-from-file("./resources/test-type-graph.txt");
+my $test-type-graph-file-path = "t/test-type-graph.txt"??"t/test-type-graph.txt"!!"test-type-graph.txt";
 
-{ # supported values
+my $tg = Perl6::TypeGraph.new-from-file($test-type-graph-file-path);
+
+subtest { 
     is $tg.types.values».categories.flat.unique.sort, 
     @categories,
     "All supported categories detected";
@@ -23,7 +25,7 @@ my $tg = Perl6::TypeGraph.new-from-file("./resources/test-type-graph.txt");
     is $tg.types.values.sort,
     @types,
     "All types detected";
-}
+}, "Supported values";
 
 { # inhteritance
     is $tg.types<C>.super[0].name, "Any", "Default inheritance to Any";
