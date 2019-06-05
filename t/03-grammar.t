@@ -8,49 +8,34 @@ plan *;
 
 my $g;
 
-$g = Perl6::TypeGraph::Decl.parse("# module Test", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-{ # comments
-    is Any, Any, "Comments";
-}
-
-$g = Perl6::TypeGraph::Decl.parse("   ", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-{ # empty lines
-    is Any, Any, "Empty lines";
-}
+is parse("# module Test"), Any, "Comments";
+is parse("             "), Any, "Empty lines";
 
 subtest {
-    test-parse("class Test", "class");
-    test-parse("module Test",  "module");
-    test-parse("role Test", "role");
-    test-parse("enum Test",  "enum");
+    is parse("class Test" ).packagetype, "class" , "class package detected";
+    is parse("module Test").packagetype, "module", "module package detected";
+    is parse("role Test"  ).packagetype, "role"  , "role package detected";
+    is parse("enum Test"  ).packagetype, "enum"  , "enum package detected";
 }, "Test package types";
 
-{ # typename with and without signature
-    $g = Perl6::TypeGraph::Decl.parse("class A[T::U]", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.type, "A", "Type name detected";
-    $g = Perl6::TypeGraph::Decl.parse("class A[T::U]", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.type, "A", "Type name detected (and signatured ignored)";
-    $g = Perl6::TypeGraph::Decl.parse("class A::B", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.type, "A::B", "Type name with :: detected";
-}
+subtest {
+    is parse("class A").type      , "A"   , "Type name detected";
+    is parse("class A[T::U]").type, "A"   , "Type name detected (and signatured ignored)";
+    is parse("class A::B").type   , "A::B", "Type name with :: detected";
+}, "Test type parsing";
 
-{ # roles
-    $g = Perl6::TypeGraph::Decl.parse("class A does B", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.role, ["B"], "Single role detected";
-    $g = Perl6::TypeGraph::Decl.parse("class A does B does C", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.role.sort, ["B", "C"], "Multiple roles detected";
-}
+subtest {
+    is parse("class A does B").role            , ["B"]     , "Single role detected";
+    is parse("class A does B does C").role.sort, ["B", "C"], "Multiple roles detected";
+}, "Test role parsing";
 
-{ # inheritance
-    $g = Perl6::TypeGraph::Decl.parse("class A is B", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.super, ["B"], "Single super detected";
-    $g = Perl6::TypeGraph::Decl.parse("class A is B is C", :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.super.sort, ["B", "C"], "Multiple supers detected";
-}
+subtest {
+    is parse("class A is B").super          , ["B"]     , "Single super detected";
+    is parse("class A is B is C").super.sort, ["B", "C"], "Multiple supers detected";
+}, "Test inheritance parsing";
 
 done-testing;
 
-sub test-parse( $str, $expected ) {
+sub parse( $str ) {
     $g = Perl6::TypeGraph::Decl.parse($str, :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-    is $g.packagetype, $expected, "$expected package detected";
 }
