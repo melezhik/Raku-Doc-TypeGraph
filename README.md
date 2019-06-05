@@ -57,7 +57,63 @@ module Test
 
 This file is parsed with the `Perl6::TypeGraph::Decl` grammar.
 
-### Perl6::TypeGraph
+## Perl6::Type
+
+All types found are represented with a `Perl6::Type` object.
+
+#### has Str \$.name
+
+Name of the type. Example: `Metamodel::Documenting`.
+
+#### has @.super
+
+All the super classes of the type.
+
+#### has @.roles
+
+All roles implemented by the type.
+
+#### has @.sub
+
+All types inheriting this type.
+
+#### has @.doers
+
+If it's a role, all types implementing it.
+
+#### has Str \$.packagetype
+
+`class`, `role`, `module` or `enum`.
+
+#### has @.categories
+
+`Metamodel`, `Domain-specific`, `Basic`, `Composite`, `Exceptions` or `Core`.
+
+#### has @.mro
+
+Method Resolution Orden (MRO) of the type.
+
+#### method mro
+
+```perl6
+method mro (
+    Perl6::Type:D:
+) return Array
+```
+
+Computes the MRO of type and store it in `@.mro`.
+
+#### method c3_merge
+
+```perl6
+method c3_merge (
+    @merge_list
+) return Array
+```
+
+C3 linearization algorithm ([more info](https://en.wikipedia.org/wiki/C3_linearization)).
+
+## Perl6::TypeGraph
 
 ### has %.types
 
