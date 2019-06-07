@@ -18,6 +18,8 @@ Pod::Load - Parse a file and returns a type graph.
 
 Perl6::Typegraph creates a graph of all types in a file. It gives you info about what classes a type inherits from and the roles it does. In addition, it also computes the inversion of this relations, which let you know what types inherit a given type and the types implementing a specific role.
 
+All types are represented using a `Perl6::Type` objec.
+
 # FILE SYNTAX
 
     [ Category ]

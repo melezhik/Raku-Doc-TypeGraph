@@ -8,7 +8,7 @@ unit class Perl6::TypeGraph;
 
 =head1 NAME
 
-Pod::Load - Parse a file and returns a type graph.
+Perl6::Typegraph - Parse a file and returns a type graph.
 
 =head1 SYNOPSIS
 

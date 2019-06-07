@@ -6,53 +6,28 @@ DOC INIT
 
 =head1 NAME
 
-Pod::Load - Parse a file and returns a type graph.
+Perl6:: - Parse a file and returns a type graph.
 
 =head1 SYNOPSIS
 
-    use Perl6::TypeGraph;
+    use Perl6::Type;
 
-    # create and initialize it
-    my $tg = Perl6::TypeGraph.new-from-file("./resources/type-graph.txt");
+    # create and name it
+    my $type = Perl6::Type.new(:name("Rat"));
 
-    # and use it!
-    say $tg.sorted;
+    # add some properties 
+    $type.super.push(["Any", "Mu", "Numeric"]);
+    $type.roles.push(["Role1", "Role2"]);
+
+    # and get its MRO!
+    say $type.mro;
 
 =head1 DESCRIPTION
 
-Perl6::Typegraph creates a graph of all types in a file. It gives you info
-about what classes a type inherits from and the roles it does. In addition, 
-it also computes the inversion of this relations, which let you know what 
-types inherit a given type and the types implementing a specific role.
-
-=head1 FILE SYNTAX
-
-    [ Category ]
-    # only one-line comments are supported
-    packagetype typename[role-signature]
-    packagetype typename[role-signature] is typename[role-signature] # inheritance
-    packagetype typename[role-signature] does typename[role-signature] # roles
-
-    [ Another cateogory ]
-
-=item Supported categories: C<Metamodel>, C<Domain-specific>, C<Basic>, C<Composite>, 
-C<Exceptions> and C<Core>.
-=item Supported packagetypes: C<class>, C<module>, C<role> and C<enum>.
-=item Supported typenames: whatever string following the syntax C<class1::class2::class3 ...>.
-=item C<[role-signature]> is not processed, but you can add it anyway.
-=item If your type inherits from more than one type or implements several roles, you can 
-add more C<is> and C<does> statements (separated by spaces).
-
-Example:
-
-    [Metamodel]
-    # Metamodel
-    class Metamodel::Archetypes
-    role  Metamodel::AttributeContainer
-    class Metamodel::GenericHOW       does Metamodel::Naming
-    class Metamodel::MethodDispatcher is Metamodel::BaseDispatcher is Another::Something
-    enum  Bool                          is Int
-    module Test
+Perl6::Typegraph represents a type in the Perl6 language. It stores 
+its parent classes and the role it's implementing. In addition, it also
+stores the inverted relation, that's to say: all types inheriting from 
+this one, and if it's a role, all types implementing it.
 
 =head1 AUTHOR
 
