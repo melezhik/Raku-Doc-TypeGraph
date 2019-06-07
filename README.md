@@ -6,6 +6,8 @@ Pod::Load - Parse a file and returns a type graph.
 
 # SYNOPSIS
 
+```perl6
+
     use Perl6::TypeGraph;
 
     # create and initialize it
@@ -13,6 +15,8 @@ Pod::Load - Parse a file and returns a type graph.
 
     # and use it!
     say $tg.sorted;
+
+```
 
 # DESCRIPTION
 
