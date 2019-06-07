@@ -55,16 +55,6 @@ Example:
     enum  Bool                          is Int
     module Test
 
-# AUTHOR
-
-Moritz <@moritz> Antonio Gámiz <@antoniogamiz>
-
-# COPYRIGHT AND LICENSE
-
-This module has been spinned off from the Official Doc repo, if you want to see the past changes go to the [official doc](https://github.com/perl6/doc).
-
-Copyright 2019 Moritz and Antonio This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
-
 ### has Associative %.types
 
 Format: \$name => Perl6::Type.
@@ -100,3 +90,13 @@ method topo-sort() returns Mu
 ```
 
 This method takes all Perl6::Type objects in %.types and sort them by its name. After that, recursively, add all roles and supers in the object to @!sorted
+
+# AUTHOR
+
+Moritz <@moritz> Antonio Gámiz <@antoniogamiz>
+
+# COPYRIGHT AND LICENSE
+
+This module has been spinned off from the Official Doc repo, if you want to see the past changes go to the [official doc](https://github.com/perl6/doc).
+
+Copyright 2019 Moritz and Antonio This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
