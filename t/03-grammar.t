@@ -12,10 +12,9 @@ is parse("# module Test"), Any, "Comments";
 is parse("             "), Any, "Empty lines";
 
 subtest {
-    is parse("class Test" ).packagetype, "class" , "class package detected";
-    is parse("module Test").packagetype, "module", "module package detected";
-    is parse("role Test"  ).packagetype, "role"  , "role package detected";
-    is parse("enum Test"  ).packagetype, "enum"  , "enum package detected";
+    for <class module role enum> -> $p {
+        is parse("$p Test" ).packagetype, $p , "$p package detected";
+    }
 }, "Test package types";
 
 subtest {

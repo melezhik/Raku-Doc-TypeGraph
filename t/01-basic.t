@@ -1,13 +1,11 @@
 use v6.c;
 use Test;
-use Perl6::TypeGraph;
 
-plan 2;
-
-use Perl6::TypeGraph;
-use Perl6::TypeGraph::Decl;
+plan 4;
 
 use-ok 'Perl6::TypeGraph';
+use-ok 'Perl6::Type';
 use-ok 'Perl6::TypeGraph::Decl';
+use-ok 'Perl6::TypeGraph::DeclActions';
 
 done-testing;
