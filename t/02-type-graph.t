@@ -5,8 +5,8 @@ use Perl6::TypeGraph;
 
 plan *;
 
-my @categories = ["basic", "composite", "core", "domain-specific", "exceptions", "metamodel"];
-my @packages = ["class", "enum", "module", "role"]; 
+my @categories := ("basic", "composite", "core", "domain-specific", "exceptions", "metamodel");
+my @packages := ("class", "enum", "module", "role"); 
 my @types = ["Any", "Attribute", "Bool", "C", "C::A", "C::B", "C::C", "R", "R::A", "R::B", "R::C", "Seq", "Test"];
 
 my $test-type-graph-file-path = "t/test-type-graph.txt"??"t/test-type-graph.txt"!!"test-type-graph.txt";
@@ -14,11 +14,11 @@ my $test-type-graph-file-path = "t/test-type-graph.txt"??"t/test-type-graph.txt"
 my $tg = Perl6::TypeGraph.new-from-file($test-type-graph-file-path);
 
 subtest { 
-    is $tg.types.values».categories.flat.unique.sort, 
+    is-deeply $tg.types.values».categories.flat.unique.sort, 
     @categories,
     "All supported categories detected";
 
-    is $tg.types.values».packagetype.flat.unique.sort, 
+    is-deeply $tg.types.values».packagetype.flat.unique.sort, 
     @packages,
     "All supported packagetypes detected";
 
