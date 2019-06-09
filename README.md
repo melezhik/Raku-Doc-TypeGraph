@@ -2,7 +2,7 @@
 
 # NAME
 
-Pod::Load - Parse a file and returns a type graph.
+Perl6::TypeGraph - Parse a description of the types for documentation.
 
 # SYNOPSIS
 
@@ -20,9 +20,10 @@ Pod::Load - Parse a file and returns a type graph.
 
 # DESCRIPTION
 
-Perl6::Typegraph creates a graph of all types in a file. It gives you info about what classes a type inherits from and the roles it does. In addition, it also computes the inversion of this relations, which let you know what types inherit a given type and the types implementing a specific role.
+Perl6::Typegraph creates a graph of all types in a file that describes
+them. It gives you info about what classes a type inherits from and the roles it does. In addition, it also computes the inversion of this relations, which let you know what types inherit a given type and the types implementing a specific role.
 
-All types are represented using a `Perl6::Type` objec.
+All types are represented using a `Perl6::Type` object.
 
 # FILE SYNTAX
 
@@ -38,7 +39,9 @@ All types are represented using a `Perl6::Type` objec.
 
 - Supported packagetypes: `class`, `module`, `role` and `enum`.
 
-- Supported typenames: whatever string following the syntax `class1::class2::class3 ...`.
+- Supported typenames: whatever string following the syntax
+  `class1::class2::class3 ...`; `class` follows the usual identifier
+  format that might include apostrophes and dashes.
 
 - `[role-signature]` is not processed, but you can add it anyway.
 
@@ -54,6 +57,10 @@ Example:
     class Metamodel::MethodDispatcher is Metamodel::BaseDispatcher is Another::Something
     enum  Bool                          is Int
     module Test
+
+(whitespace is only included for appearance, it does not have any
+meaning)
+
 
 ### has Associative %.types
 
@@ -89,14 +96,16 @@ Parse the file (using the Decl grammar) and initialize %.types and @.sorted
 method topo-sort() returns Mu
 ```
 
-This method takes all Perl6::Type objects in %.types and sort them by its name. After that, recursively, add all roles and supers in the object to @!sorted
+This method takes all Perl6::Type objects in `%.types` and sort them
+by its name. After that, recursively, add all roles and supers in the
+object to `@!sorted` 
 
 # AUTHOR
 
-Moritz <@moritz> Antonio Gámiz <@antoniogamiz>
+Moritz Lenz <@moritz> Antonio Gámiz <@antoniogamiz>
 
 # COPYRIGHT AND LICENSE
 
-This module has been spinned off from the Official Doc repo, if you want to see the past changes go to the [official doc](https://github.com/perl6/doc).
+This module is a spin-off from the Official Doc repo, if you want to see the past changes go to the [official doc](https://github.com/perl6/doc).
 
 Copyright 2019 Moritz and Antonio This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.

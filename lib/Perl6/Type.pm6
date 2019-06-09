@@ -31,7 +31,7 @@ this one, and if it's a role, all types implementing it.
 
 =head1 AUTHOR
 
-Moritz <@moritz>
+Moritz Lenz <@moritz>
 Antonio Gámiz <@antoniogamiz>
 
 =head1 COPYRIGHT AND LICENSE

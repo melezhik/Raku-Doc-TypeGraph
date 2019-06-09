@@ -21,7 +21,6 @@ subtest {
     is-deeply $tg.types.values».packagetype.flat.unique.sort, 
     @packages,
     "All supported packagetypes detected";
-    say $tg.types.values.sort;
     is $tg.types.values.sort,
     @types,
     "All types detected";
