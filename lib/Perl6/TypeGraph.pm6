@@ -79,7 +79,7 @@ has @.sorted;
 
 
 #| Initialize %.types from a file.
-method new-from-file($fn = "resources/data/type-graph.txt") {
+method new-from-file($fn = %?RESOURCES<data/type-graph.txt>) {
     my $n = self.bless;
     $n.parse-from-file($fn);
     $n;
