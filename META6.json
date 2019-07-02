@@ -1,20 +1,20 @@
 {
-    "authors": ["AntonioGamiz", "moritz", "Perl6"],
-    "build-depends": [],
-    "depends": [],
-    "description": "Parse a type graph description file",
-    "license": "Artistic-2.0",
-    "name": "Perl6::TypeGraph",
-    "perl": "6.c",
-    "provides": {
-        "Perl6::Type": "lib/Perl6/Type.pm6",
-        "Perl6::TypeGraph": "lib/Perl6/TypeGraph.pm6",
-        "Perl6::TypeGraph::Decl": "lib/Perl6/TypeGraph/Decl.pm6",
-        "Perl6::TypeGraph::DeclActions": "lib/Perl6/TypeGraph/DeclActions.pm6"
-    },
-    "resources": ["data/type-graph.txt"],
-    "source-url": "https://github.com/antoniogamiz/Perl6-TypeGraph.git",
-    "tags": ["documentation", "configuration", "introspection"],
-    "test-depends": ["Test::META"],
-    "version": "0.0.1"
+  "authors": ["AntonioGamiz", "moritz", "Perl6"],
+  "build-depends": [],
+  "depends": [],
+  "description": "Parse a type graph description file",
+  "license": "Artistic-2.0",
+  "name": "Perl6::TypeGraph",
+  "perl": "6.c",
+  "provides": {
+    "Perl6::Type": "lib/Perl6/Type.pm6",
+    "Perl6::TypeGraph": "lib/Perl6/TypeGraph.pm6",
+    "Perl6::TypeGraph::Decl": "lib/Perl6/TypeGraph/Decl.pm6",
+    "Perl6::TypeGraph::DeclActions": "lib/Perl6/TypeGraph/DeclActions.pm6"
+  },
+  "resources": ["data/type-graph.txt"],
+  "source-url": "https://github.com/antoniogamiz/Perl6-TypeGraph.git",
+  "tags": ["documentation", "configuration", "introspection"],
+  "test-depends": ["Test::META"],
+  "version": "0.0.2"
 }

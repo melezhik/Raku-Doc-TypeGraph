@@ -1,3 +1,7 @@
+2019-07-03  Antonio Gamiz  <@antoniogamiz>
+
+	* lib/Perl6/TypeGraph.pm6 (Perl6): Adds default path for .new-from-file to avoid download the file in every place you want to use it. 
+
 Revision history for Perl6-TypeGraph
 
 {{$NEXT}}
