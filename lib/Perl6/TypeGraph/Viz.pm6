@@ -111,4 +111,72 @@ method to-file ($file, :$format = 'svg', :$size --> Promise:D) {
     $promise
 }
 
+
+method write-type-graph-images(:$type-graph, :$path) {
+
+    say 'Writing type graph images to html/images/ ...';
+    for $type-graph.sorted -> $type {
+        FIRST my @type-graph-images;
+
+        my $viz = Perl6::TypeGraph::Viz.new-for-type($type);
+        @type-graph-images.push: $viz.to-file("$path/type-graph-{$type}.svg", format => 'svg');
+
+        LAST await @type-graph-images;
+    }
+
+    my %by-group = $type-graph.sorted.classify(&viz-group);
+    %by-group<Exception>.append: $type-graph.types< Exception Any Mu >;
+    %by-group<Metamodel>.append: $type-graph.types< Any Mu >;
+
+    for %by-group.kv -> $group, @types {
+        FIRST my @specialized-visualizations;
+
+        my $viz = Perl6::TypeGraph::Viz.new(:types(@types),
+                                            :dot-hints(viz-hints($group)),
+                                            :rank-dir('LR'));
+        @specialized-visualizations.push: $viz.to-file("$path/type-graph-{$group}.svg", format => 'svg');
+
+        LAST await @specialized-visualizations;
+    }
+}
+
+sub viz-group($type) {
+    return 'Metamodel' if $type.name ~~ /^ 'Perl6::Metamodel' /;
+    return 'Exception' if $type.name ~~ /^ 'X::' /;
+    return 'Any';
+}
+
+sub viz-hints($group) {
+    return '' unless $group eq 'Any';
+
+    return '
+    subgraph "cluster: Mu children" {
+        rank=same;
+        style=invis;
+        "Any";
+        "Junction";
+    }
+    subgraph "cluster: Pod:: top level" {
+        rank=same;
+        style=invis;
+        "Pod::Config";
+        "Pod::Block";
+    }
+    subgraph "cluster: Date/time handling" {
+        rank=same;
+        style=invis;
+        "Date";
+        "DateTime";
+        "DateTime-local-timezone";
+    }
+    subgraph "cluster: Collection roles" {
+        rank=same;
+        style=invis;
+        "Positional";
+        "Associative";
+        "Baggy";
+    }
+';
+}
+
 # vim: expandtab shiftwidth=4 ft=perl6
