@@ -113,13 +113,16 @@ method to-file ($file, :$format = 'svg', :$size --> Promise:D) {
 
 
 method write-type-graph-images(:$type-graph, :$path, :$force) {
-
+    say $force;
+    say "out";
     unless $force {
-        my $dest = '$path/type-graph-Any.svg'.IO;
+        say "inside";
+        my $dest = "{$path}/type-graph-Any.svg".IO;
         my $tg-path = %?RESOURCES<data/type-graph.txt>;
+        say $dest;
         if $dest.e {
             say "Not writing type graph images, it seems to be up-to-date";
-            say "To force writing of type graph images, supply the --typegraph";
+            say "To force writing of type graph images, supply the --force";
             say "option at the command line, or delete";
             say "file 'html/images/type-graph-Any.svg'";
             return;
