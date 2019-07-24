@@ -117,7 +117,7 @@ method write-type-graph-images(:$type-graph, :$path, :$force) {
     unless !$force {
         my $dest = '$path/type-graph-Any.svg'.IO;
         my $tg-path = %?RESOURCES<data/type-graph.txt>;
-        if $dest.e && $dest.modified >= $tg-path.IO.modified {
+        if $dest.e {
             say "Not writing type graph images, it seems to be up-to-date";
             say "To force writing of type graph images, supply the --typegraph";
             say "option at the command line, or delete";
