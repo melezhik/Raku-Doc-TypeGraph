@@ -114,7 +114,7 @@ method to-file ($file, :$format = 'svg', :$size --> Promise:D) {
 
 method write-type-graph-images(:$type-graph, :$path, :$force) {
 
-    unless $force {
+    unless !$force {
         my $dest = '$path/type-graph-Any.svg'.IO;
         my $tg-path = %?RESOURCES<data/type-graph.txt>;
         if $dest.e && $dest.modified >= $tg-path.IO.modified {
