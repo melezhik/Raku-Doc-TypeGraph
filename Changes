@@ -1,10 +1,14 @@
+2019-07-24  Antonio Gamiz  <@antoniogamiz>
+
+	* lib/Perl6/TypeGraph/Viz.pm6 (Perl6): Fix --force option to avoid generate typegraph representations.
+
 2019-07-04  Antonio Gamiz  <@antoniogamiz>
 
-	* lib/Perl6/TypeGraph/Viz.pm6 (Perl6): Imports logic to create viz svg files. 
+	* lib/Perl6/TypeGraph/Viz.pm6 (Perl6): Imports logic to create viz svg files.
 
 2019-07-03  Antonio Gamiz  <@antoniogamiz>
 
-	* lib/Perl6/TypeGraph.pm6 (Perl6): Adds default path for .new-from-file to avoid download the file in every place you want to use it. 
+	* lib/Perl6/TypeGraph.pm6 (Perl6): Adds default path for .new-from-file to avoid download the file in every place you want to use it.
 
 Revision history for Perl6-TypeGraph
 
