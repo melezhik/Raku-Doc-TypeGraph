@@ -1,6 +1,8 @@
 {
   "authors": ["AntonioGamiz", "moritz", "Perl6"],
   "build-depends": [],
+  "auth": "github:antoniogamiz",
+  "api": "0",
   "depends": [],
   "description": "Parse a type graph description file",
   "license": "Artistic-2.0",
@@ -17,5 +19,5 @@
   "source-url": "https://github.com/antoniogamiz/Perl6-TypeGraph.git",
   "tags": ["documentation", "configuration", "introspection"],
   "test-depends": ["Test::META"],
-  "version": "0.0.4"
+  "version": "0.0.5"
 }
