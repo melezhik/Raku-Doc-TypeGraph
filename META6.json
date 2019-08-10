@@ -2,7 +2,7 @@
   "authors": ["AntonioGamiz", "moritz", "Perl6"],
   "build-depends": [],
   "auth": "github:antoniogamiz",
-  "api": "0",
+  "api": "2",
   "depends": [],
   "description": "Parse a type graph description file",
   "license": "Artistic-2.0",
