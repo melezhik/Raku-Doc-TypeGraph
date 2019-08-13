@@ -15,7 +15,7 @@ Perl6:: - Parse a file and returns a type graph.
     # create and name it
     my $type = Perl6::Type.new(:name("Rat"));
 
-    # add some properties 
+    # add some properties
     $type.super.push(["Any", "Mu", "Numeric"]);
     $type.roles.push(["Role1", "Role2"]);
 
@@ -24,9 +24,9 @@ Perl6:: - Parse a file and returns a type graph.
 
 =head1 DESCRIPTION
 
-Perl6::Typegraph represents a type in the Perl6 language. It stores 
+Perl6::Typegraph represents a type in the Perl6 language. It stores
 its parent classes and the role it's implementing. In addition, it also
-stores the inverted relation, that's to say: all types inheriting from 
+stores the inverted relation, that's to say: all types inheriting from
 this one, and if it's a role, all types implementing it.
 
 =head1 AUTHOR
@@ -41,7 +41,7 @@ to the L<official doc|https://github.com/perl6/doc>.
 
 Copyright 2019 Moritz and Antonio
 This library is free software; you can redistribute it and/or modify
-it under the Artistic License 2.0. 
+it under the Artistic License 2.0.
 
 =end pod
 
@@ -66,10 +66,12 @@ has @.mro;
 method mro(Perl6::Type:D:) {
     # do not recompute mro
     return @!mro if @!mro;
-    
+    # say "=";
     if @.super == 1 {
+        if ($.name eq any(<Any>) and @.super[0].name eq "Any") {return []}
         @!mro = @.super[0].mro;
     } elsif @.super > 1 {
+        if ($.name eq any(<Any>) and @.super[0].name eq "Any") {return []}
         my @merge_list = @.super.map: *.mro.item;
         @!mro = self.c3_merge(@merge_list);
     }
@@ -109,7 +111,7 @@ method c3_merge(@merge_list) {
             last;
         }
     }
-    
+
     # this means @merge_list was initially empty
     return () unless $cand_count;
 

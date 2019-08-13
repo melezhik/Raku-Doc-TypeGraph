@@ -67,6 +67,7 @@ method as-dot (:$size) {
 
     @dot.append: "\n    // Types\n";
     for @.types -> $type {
+        next unless $type;
         my $color = do given $type.packagetype {
             when ‘role’ { $.role-color  }
             when ‘enum’ { $.enum-color  }
@@ -77,6 +78,7 @@ method as-dot (:$size) {
 
     @dot.append: "\n    // Superclasses\n";
     for @.types -> $type {
+        next unless $type;
         for $type.super -> $super {
             @dot.append: “    "$type.name()" -> "$super" [color="$.class-color"];\n”;
         }
@@ -84,6 +86,7 @@ method as-dot (:$size) {
 
     @dot.append: "\n    // Roles\n";
     for @.types -> $type {
+        next unless $type;
         for $type.roles -> $role {
             @dot.append: “    "$type.name()" -> "$role" [color="$.role-color"];\n”;
         }
