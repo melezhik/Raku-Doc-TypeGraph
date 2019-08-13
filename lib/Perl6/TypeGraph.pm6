@@ -23,8 +23,8 @@ Perl6::Typegraph - Parse a file and returns a type graph.
 =head1 DESCRIPTION
 
 Perl6::Typegraph creates a graph of all types in a file. It gives you info
-about what classes a type inherits from and the roles it does. In addition, 
-it also computes the inversion of this relations, which let you know what 
+about what classes a type inherits from and the roles it does. In addition,
+it also computes the inversion of this relations, which let you know what
 types inherit a given type and the types implementing a specific role.
 
 =head1 FILE SYNTAX
@@ -37,12 +37,12 @@ types inherit a given type and the types implementing a specific role.
 
     [ Another cateogory ]
 
-=item Supported categories: C<Metamodel>, C<Domain-specific>, C<Basic>, C<Composite>, 
+=item Supported categories: C<Metamodel>, C<Domain-specific>, C<Basic>, C<Composite>,
 C<Exceptions> and C<Core>.
 =item Supported packagetypes: C<class>, C<module>, C<role> and C<enum>.
 =item Supported typenames: whatever string following the syntax C<class1::class2::class3 ...>.
 =item C<[role-signature]> is not processed, but you can add it anyway.
-=item If your type inherits from more than one type or implements several roles, you can 
+=item If your type inherits from more than one type or implements several roles, you can
 add more C<is> and C<does> statements (separated by spaces).
 
 Example:
@@ -66,9 +66,9 @@ Antonio Gámiz <@antoniogamiz>
 This module has been spinned off from the Official Doc repo, if you want to see the past changes go
 to the L<official doc|https://github.com/perl6/doc>.
 
-Copyright 2019 Moritz and Antonio
+Copyright 2019 Perl6 Team
 This library is free software; you can redistribute it and/or modify
-it under the Artistic License 2.0. 
+it under the Artistic License 2.0.
 
 =end pod
 
@@ -79,7 +79,9 @@ has @.sorted;
 
 
 #| Initialize %.types from a file.
-method new-from-file($fn = %?RESOURCES<data/type-graph.txt>) {
+method new-from-file($fn = "type-graph.txt") {
+    my $filename = $fn.IO.e ?? $fn
+                            !! %?RESOURCES<data/type-graph.txt>;
     my $n = self.bless;
     $n.parse-from-file($fn);
     $n;
@@ -88,9 +90,9 @@ method new-from-file($fn = %?RESOURCES<data/type-graph.txt>) {
 #| Parse the file (using the Decl grammar) and initialize %.types and @.sorted
 method parse-from-file($fn) {
     my $f = open $fn;
-    
+
     %!types{"Any"} = Perl6::Type.new(:name("Any"));
-    
+
     my @categories;
     for $f.lines -> $l {
         # ignore comments
@@ -102,7 +104,7 @@ method parse-from-file($fn) {
             next;
         }
 
-        # new [category] 
+        # new [category]
         if $l ~~ / :s ^ '[' (\S+) + ']' $/ {
             @categories = @0>>.lc;
             next;
@@ -110,7 +112,7 @@ method parse-from-file($fn) {
 
         # parse line
         my $m = Perl6::TypeGraph::Decl.parse($l, :actions(Perl6::TypeGraph::DeclActions.new)).actions;
-        
+
         # initialize the type
         my $type = %!types{$m.type} //= Perl6::Type.new(:name($m.type));
         $type.packagetype = $m.packagetype;
@@ -143,7 +145,7 @@ method parse-from-file($fn) {
         }
     }
 
-    # this for loop initializes sub and doers attributes 
+    # this for loop initializes sub and doers attributes
     # of every Perl6::Type object in %.types in order to
     # cache the inversion of all type relationships
     for %!types.values -> $t {

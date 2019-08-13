@@ -19,5 +19,5 @@
   "source-url": "https://github.com/antoniogamiz/Perl6-TypeGraph.git",
   "tags": ["documentation", "configuration", "introspection"],
   "test-depends": ["Test::META"],
-  "version": "2.0.0"
+  "version": "2.1.0"
 }
