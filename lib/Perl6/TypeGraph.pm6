@@ -83,7 +83,7 @@ method new-from-file($fn = "type-graph.txt") {
     my $filename = $fn.IO.e ?? $fn
                             !! %?RESOURCES<data/type-graph.txt>;
     my $n = self.bless;
-    $n.parse-from-file($fn);
+    $n.parse-from-file($filename);
     $n;
 }
 
