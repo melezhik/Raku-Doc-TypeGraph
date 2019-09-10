@@ -8,7 +8,7 @@ unit class Perl6::TypeGraph;
 
 =head1 NAME
 
-Perl6::Typegraph - Parse a file and returns a type graph.
+Perl6::Typegraph - Parse a class description file, return a type graph.
 
 =head1 SYNOPSIS
 
@@ -63,7 +63,7 @@ Antonio Gámiz <@antoniogamiz>
 
 =head1 COPYRIGHT AND LICENSE
 
-This module has been spinned off from the Official Doc repo, if you want to see the past changes go
+This module has been spun off from the Official Doc repo, if you want to see past changes go
 to the L<official doc|https://github.com/perl6/doc>.
 
 Copyright 2019 Perl6 Team
