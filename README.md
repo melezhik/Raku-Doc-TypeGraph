@@ -23,7 +23,9 @@ Perl6::TypeGraph - Parse a description of the types for documentation.
 Perl6::Typegraph creates a graph of all types in a file that describes
 them. It gives you info about what classes a type inherits from and the roles it does. In addition, it also computes the inversion of this relations, which let you know what types inherit a given type and the types implementing a specific role.
 
-All types are represented using a `Perl6::Type` object.
+All types are represented using a `Perl6::Type` object. Categories are just
+descriptive and are not really used in the generation of graphs. They will
+probably be eliminated in later iterations of this library.
 
 # FILE SYNTAX
 
