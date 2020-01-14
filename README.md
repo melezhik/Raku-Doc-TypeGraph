@@ -15,7 +15,6 @@ Perl6::TypeGraph - Parse a description of the types for documentation.
 
     # and use it!
     say $tg.sorted;
-
 ```
 
 # DESCRIPTION
