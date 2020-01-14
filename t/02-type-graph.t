@@ -52,7 +52,7 @@ subtest {
 }, "Role inversion";
 
 is $tg.sorted,
-["Any", "Attribute", "Bool", "C", "C::A", "C::B", "C::C", "R", "R::A", "R::B", "R::C", "Seq", "Test"],
-"topo-sort";
+    ["Any", "Attribute", "Bool", "C", "C::A", "C::B", "C::C", "R", "R::A", "R::B", "R::C", "Seq", "Test"],
+    "topo-sort";
 
 done-testing;
