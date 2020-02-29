@@ -131,4 +131,22 @@ method c3_merge(@merge_list) {
     @result;
 }
 
+method gist {
+    my $supers     = @.super.map({.name}) || "None";
+    my $sub        = @.sub.map({.name}) || "None";
+    my $roles      = @.roles.map({.name}) || "None";
+    my $doers      = @.doers.map({.name}) || "None";
+    my $categories = @.categories || "None";
+    my $mro        = @.mro.map({.name}) || "None";
+
+    return "\{"                     ~
+        "supers: $supers, "         ~
+        "sub: $sub, "               ~
+        "roles: $roles, "           ~
+        "doers: $doers, "           ~
+        "categories: $categories, " ~
+        "mro: $mro"                 ~
+        "\}"
+}
+
 # vim: expandtab shiftwidth=4 ft=perl6
