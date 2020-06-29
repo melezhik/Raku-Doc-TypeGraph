@@ -1,5 +1,9 @@
 {
-  "authors": ["AntonioGamiz", "moritz", "Perl6"],
+  "authors": [
+    "AntonioGamiz",
+    "moritz",
+    "Perl6"
+  ],
   "build-depends": [],
   "auth": "github:antoniogamiz",
   "api": "2",
@@ -15,9 +19,17 @@
     "Perl6::TypeGraph::Decl": "lib/Perl6/TypeGraph/Decl.pm6",
     "Perl6::TypeGraph::DeclActions": "lib/Perl6/TypeGraph/DeclActions.pm6"
   },
-  "resources": ["data/type-graph.txt"],
+  "resources": [
+    "data/type-graph.txt"
+  ],
   "source-url": "https://github.com/antoniogamiz/Perl6-TypeGraph.git",
-  "tags": ["documentation", "configuration", "introspection"],
-  "test-depends": ["Test::META"],
-  "version": "2.1.2"
+  "tags": [
+    "documentation",
+    "configuration",
+    "introspection"
+  ],
+  "test-depends": [
+    "Test::META"
+  ],
+  "version": "2.1.3"
 }
