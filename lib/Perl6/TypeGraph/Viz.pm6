@@ -106,8 +106,9 @@ method to-file ($file, :$format = 'svg', :$size --> Promise:D) {
     }
     die "bad filename '$file'" unless $file;
     my $graphvizzer = ( $file ~~ /Metamodel\:\: || X\:\:Comp/ )??'neato'!!'dot';
-    spurt $file ~ ‘.dot’, self.as-dot(:$size).encode; # raw .dot file for debugging
-    my $dot = Proc::Async.new(:w, $graphvizzer, '-T', $format, '-o', $file);
+    my $valid-file-name = $file.subst(:g, /\:\:/,"");
+    spurt $valid-file-name ~ ‘.dot’, self.as-dot(:$size).encode; # raw .dot file for debugging
+    my $dot = Proc::Async.new(:w, $graphvizzer, '-T', $format, '-o', $valid-file-name);
     my $promise = $dot.start;
     await($dot.write(self.as-dot(:$size).encode));
     $dot.close-stdin;
