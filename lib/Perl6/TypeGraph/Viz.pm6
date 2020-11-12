@@ -10,11 +10,13 @@ has $.rank-dir    = 'BT';
 has $.role-color  = '#6666FF';
 has $.enum-color  = '#33BB33';
 has $.class-color = '#000000';
+has $.bg-color    = '#FFFFFF';
+has $.node-style  = Nil;
 has $.node-soft-limit = 20;
 has $.node-hard-limit = 50;
 
-method new-for-type ($type) {
-    my $self = self.bless(:types[$type]);
+method new-for-type ($type, *%attrs) {
+    my $self = self.bless(:types[$type], |%attrs);
     $self!add-neighbors;
     return $self;
 }
@@ -63,6 +65,11 @@ method as-dot (:$size) {
     if $.dot-hints -> $hints {
         @dot.append: "\n    // Layout hints\n";
         @dot.append: $hints;
+    }
+
+    @dot.append: "\n    graph [truecolor=true bgcolor=\"$!bg-color\"];";
+    with $!node-style {
+        @dot.append: "\nnode [style=$_];";
     }
 
     @dot.append: "\n    // Types\n";
@@ -119,7 +126,6 @@ method to-file ($file, :$format = 'svg', :$size --> Promise:D) {
 method write-type-graph-images(:$type-graph, :$path, :$force) {
     unless $force {
         my $dest = "{$path}/type-graph-Any.svg".IO;
-        my $tg-path = %?RESOURCES<data/type-graph.txt>;
         if $dest.e {
             say "Not writing type graph images, it seems to be up-to-date";
             say "To force writing of type graph images, supply the --force";
@@ -133,7 +139,8 @@ method write-type-graph-images(:$type-graph, :$path, :$force) {
     for $type-graph.sorted -> $type {
         FIRST my @type-graph-images;
 
-        my $viz = Perl6::TypeGraph::Viz.new-for-type($type);
+        my $viz = Perl6::TypeGraph::Viz.new-for-type($type,
+                :$!class-color, :$!enum-color, :$!role-color, :$!bg-color, :$!node-style);
         @type-graph-images.push: $viz.to-file("$path/type-graph-{$type}.svg", format => 'svg');
 
         LAST await @type-graph-images;
@@ -146,9 +153,10 @@ method write-type-graph-images(:$type-graph, :$path, :$force) {
     for %by-group.kv -> $group, @types {
         FIRST my @specialized-visualizations;
 
-        my $viz = Perl6::TypeGraph::Viz.new(:types(@types),
-                                            :dot-hints(viz-hints($group)),
-                                            :rank-dir('LR'));
+        my $viz = Perl6::TypeGraph::Viz.new(:@types,
+                :dot-hints(viz-hints($group)),
+                :rank-dir('LR'),
+                :$!class-color, :$!enum-color, :$!role-color, :$!bg-color, :$!node-style);
         @specialized-visualizations.push: $viz.to-file("$path/type-graph-{$group}.svg", format => 'svg');
 
         LAST await @specialized-visualizations;
