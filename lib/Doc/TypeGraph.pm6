@@ -1,28 +1,28 @@
-use Perl6::Type;
-use Perl6::TypeGraph::Decl;
-use Perl6::TypeGraph::DeclActions;
+use Doc::Type;
+use Doc::TypeGraph::Decl;
+use Doc::TypeGraph::DeclActions;
 
-unit class Perl6::TypeGraph;
+unit class Doc::TypeGraph;
 
 =begin pod
 
 =head1 NAME
 
-Perl6::Typegraph - Parse a class description file, return a type graph.
+Doc::TypeGraph - Parse a class description file, return a type graph.
 
 =head1 SYNOPSIS
 
-    use Perl6::TypeGraph;
+    use Doc::TypeGraph;
 
     # create and initialize it
-    my $tg = Perl6::TypeGraph.new-from-file("./resources/type-graph.txt");
+    my $tg = Doc::TypeGraph.new-from-file("./resources/type-graph.txt");
 
     # and use it!
     say $tg.sorted;
 
 =head1 DESCRIPTION
 
-Perl6::Typegraph creates a graph of all types in a file. It gives you info
+Doc::TypeGraph creates a graph of all types in a file. It gives you info
 about what classes a type inherits from and the roles it does. In addition,
 it also computes the inversion of this relations, which let you know what
 types inherit a given type and the types implementing a specific role.
@@ -111,7 +111,7 @@ method parse-from-file($fn) {
         }
 
         # parse line
-        my $m = Perl6::TypeGraph::Decl.parse($l, :actions(Perl6::TypeGraph::DeclActions.new)).actions;
+        my $m = Doc::TypeGraph::Decl.parse($l, :actions(Doc::TypeGraph::DeclActions.new)).actions;
 
         # initialize the type
         my $type = %!types{$m.type} //= Perl6::Type.new(:name($m.type));
