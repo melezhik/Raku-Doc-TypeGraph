@@ -1,7 +1,7 @@
 use v6.c;
-use Perl6::TypeGraph;
+use Doc::TypeGraph;
 
-unit class Perl6::TypeGraph::Viz;
+unit class Doc::TypeGraph::Viz;
 
 has @.types;
 has $.dot-hints;
@@ -58,8 +58,13 @@ method !add-neighbors {
 
 method as-dot (:$size) {
     my @dot;
-    @dot.append: “digraph "perl6-type-graph" \{\n    rankdir=$.rank-dir;\n    splines=polyline;\n”;
-    @dot.append: "    overlap=false; ";
+    @dot.append: qq:to/END/;
+digraph "raku-type-graph" \{
+    rankdir=$.rank-dir;
+    splines=polyline;
+    overlap=false;
+END
+
     @dot.append: “    size="$size"\n” if $size;
 
     if $.dot-hints -> $hints {
@@ -139,7 +144,7 @@ method write-type-graph-images(:$type-graph, :$path, :$force) {
     for $type-graph.sorted -> $type {
         FIRST my @type-graph-images;
 
-        my $viz = Perl6::TypeGraph::Viz.new-for-type($type,
+        my $viz = Doc::TypeGraph::Viz.new-for-type($type,
                 :$!class-color, :$!enum-color, :$!role-color, :$!bg-color, :$!node-style);
         @type-graph-images.push: $viz.to-file("$path/type-graph-{$type}.svg", format => 'svg');
 
@@ -153,7 +158,7 @@ method write-type-graph-images(:$type-graph, :$path, :$force) {
     for %by-group.kv -> $group, @types {
         FIRST my @specialized-visualizations;
 
-        my $viz = Perl6::TypeGraph::Viz.new(:@types,
+        my $viz = Doc::TypeGraph::Viz.new(:@types,
                 :dot-hints(viz-hints($group)),
                 :rank-dir('LR'),
                 :$!class-color, :$!enum-color, :$!role-color, :$!bg-color, :$!node-style);

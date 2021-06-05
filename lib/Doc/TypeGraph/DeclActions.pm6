@@ -1,6 +1,4 @@
-
-
-unit class Perl6::TypeGraph::DeclActions;
+unit class Doc::TypeGraph::DeclActions;
 
 #| Package type
 has $.packagetype is rw;

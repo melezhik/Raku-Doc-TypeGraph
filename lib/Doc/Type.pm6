@@ -1,19 +1,19 @@
 use v6.c;
 
-unit class Perl6::Type;
+unit class Doc::Type;
 
 =begin pod
 
 =head1 NAME
 
-Perl6:: - Parse a file and returns a type graph.
+Doc::Type - Parse a file and returns a type graph.
 
 =head1 SYNOPSIS
 
-    use Perl6::Type;
+    use Doc::Type;
 
     # create and name it
-    my $type = Perl6::Type.new(:name("Rat"));
+    my $type = Doc::Type.new(:name("Rat"));
 
     # add some properties
     $type.super.push(["Any", "Mu", "Numeric"]);
@@ -24,7 +24,7 @@ Perl6:: - Parse a file and returns a type graph.
 
 =head1 DESCRIPTION
 
-Perl6::Typegraph represents a type in the Perl6 language. It stores
+Doc::Typegraph represents a type in the Raku language. It stores
 its parent classes and the role it's implementing. In addition, it also
 stores the inverted relation, that's to say: all types inheriting from
 this one, and if it's a role, all types implementing it.
@@ -36,8 +36,9 @@ Antonio Gámiz <@antoniogamiz>
 
 =head1 COPYRIGHT AND LICENSE
 
-This module has been spinned off from the Official Doc repo, if you want to see the past changes go
-to the L<official doc|https://github.com/perl6/doc>.
+This module has been spun off from the Official Doc repo, if you want to see the
+past changes go
+to the L<official doc|https://github.com/Raku/doc>.
 
 Copyright 2019 Moritz and Antonio
 This library is free software; you can redistribute it and/or modify
@@ -63,7 +64,7 @@ has @.categories;
 has @.mro;
 
 #| Computes the MRO and store it in @.mro.
-method mro(Perl6::Type:D:) {
+method mro(Doc::Type:D:) {
     # do not recompute mro
     return @!mro if @!mro;
     # say "=";
@@ -149,4 +150,4 @@ method gist {
         "\}"
 }
 
-# vim: expandtab shiftwidth=4 ft=perl6
+# vim: expandtab shiftwidth=4 ft=Doc

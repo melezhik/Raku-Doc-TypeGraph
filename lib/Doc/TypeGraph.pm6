@@ -72,7 +72,7 @@ it under the Artistic License 2.0.
 
 =end pod
 
-#| Format: $name => Perl6::Type.
+#| Format: $name => Doc::Type.
 has %.types;
 #| Sorted array of type names.
 has @.sorted;
@@ -91,7 +91,7 @@ method new-from-file($fn = "type-graph.txt") {
 method parse-from-file($fn) {
     my $f = open $fn;
 
-    %!types{"Any"} = Perl6::Type.new(:name("Any"));
+    %!types{"Any"} = Doc::Type.new(:name("Any"));
 
     my @categories;
     for $f.lines -> $l {
@@ -114,16 +114,16 @@ method parse-from-file($fn) {
         my $m = Doc::TypeGraph::Decl.parse($l, :actions(Doc::TypeGraph::DeclActions.new)).actions;
 
         # initialize the type
-        my $type = %!types{$m.type} //= Perl6::Type.new(:name($m.type));
+        my $type = %!types{$m.type} //= Doc::Type.new(:name($m.type));
         $type.packagetype = $m.packagetype;
         $type.categories = @categories;
 
         for $m.super -> $t {
-            %!types{$t} //= Perl6::Type.new(:name($t));
+            %!types{$t} //= Doc::Type.new(:name($t));
             $type.super.append: %!types{$t};
         }
         for $m.role -> $t {
-            %!types{$t} //= Perl6::Type.new(:name($t));
+            %!types{$t} //= Doc::Type.new(:name($t));
             $type.roles.append: %!types{$t};
         }
 
@@ -150,7 +150,7 @@ method parse-from-file($fn) {
 
 
     # this for loop initializes sub and doers attributes
-    # of every Perl6::Type object in %.types in order to
+    # of every Doc::Type object in %.types in order to
     # cache the inversion of all type relationships
     for %!types.values -> $t {
         $_.sub.append($t)   for $t.super;
@@ -160,7 +160,7 @@ method parse-from-file($fn) {
     self!topo-sort;
 }
 
-#| This method takes all Perl6::Type objects in %.types
+#| This method takes all Doc::Type objects in %.types
 #| and sort them by its name. After that, recursively,
 #| add all roles and supers in the object to @!sorted
 method !topo-sort {

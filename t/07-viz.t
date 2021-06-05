@@ -1,11 +1,11 @@
-#!/usr/bin/env perl6
+#!/usr/bin/env raku
 use Test;
-use Perl6::TypeGraph;
-use Perl6::TypeGraph::Viz;
+use Doc::TypeGraph;
+use Doc::TypeGraph::Viz;
 
 constant $test-graph = 'type-graph-Any.svg';
 
-my $tg = Perl6::TypeGraph.new-from-file('test-type-graph.txt');
+my $tg = Doc::TypeGraph.new-from-file('test-type-graph.txt');
 
 sub testing-roundtrip($viz, $desc, *@checks) {
     my $path = $*TMPDIR.add('viz-test-dir');
@@ -22,12 +22,12 @@ sub testing-roundtrip($viz, $desc, *@checks) {
         }
     }, $desc;
 
-#    unlink $_ for dir $path;
+    unlink $_ for dir $path;
     rmdir $path;
 }
 
 # Default colors
-my $viz = Perl6::TypeGraph::Viz.new;
+my $viz = Doc::TypeGraph::Viz.new;
 testing-roundtrip($viz, "Default coloring",
         *.contains('graph [truecolor=true bgcolor="#FFFFFF"]'),
         *.contains('"Proc" -> "Any" [color="#000000"];'),
@@ -35,7 +35,7 @@ testing-roundtrip($viz, "Default coloring",
         *.contains('"Signal" [color="#33BB33", fontcolor="#33BB33", href="/type/Signal", fontname="FreeSans"];'));
 
 # Custom colors
-$viz = Perl6::TypeGraph::Viz.new(class-color => '#030303', role-color => '#5503B3', enum-color => '#A30031',
+$viz = Doc::TypeGraph::Viz.new(class-color => '#030303', role-color => '#5503B3', enum-color => '#A30031',
         bg-color => '#fafafa', node-style => 'filled margin=0.2 fillcolor="#f2f2f2" shape=rectangle fontsize=16');
 testing-roundtrip($viz, "Custom coloring",
         *.contains('graph [truecolor=true bgcolor="#fafafa"]'),

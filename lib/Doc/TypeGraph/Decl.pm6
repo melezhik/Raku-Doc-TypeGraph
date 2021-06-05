@@ -1,4 +1,4 @@
-unit grammar Perl6::TypeGraph::Decl;
+unit grammar Doc::TypeGraph::Decl;
 
 token ident      { <.alpha> \w*                         }
 token apostrophe { <[ ' \- ]>                           }
