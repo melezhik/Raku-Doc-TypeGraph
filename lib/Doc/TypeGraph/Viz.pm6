@@ -1,6 +1,59 @@
 use v6.c;
 use Doc::TypeGraph;
 
+=begin pod
+
+=head1 NAME
+
+Doc::TypeGraph::Viz - Output graph in .dot format (from GraphViz)
+
+=head1 SYNOPSIS
+
+my $tg = Doc::TypeGraph.new-from-file('test-type-graph.txt');
+my $viz = Doc::TypeGraph::Viz.new;
+
+my $path = "/tmp";
+$viz.write-type-graph-images(:$path, :force, type-graph => $tg);
+
+=head1 DESCRIPTION
+
+Class for rendering C<Doc::TypeGraph> objects in a rather rigid way;
+GraphViz's C<.dot> format is used for expressing the relationships,
+and they are then rendered using the C<dot> program.
+
+=head1 METHODS
+
+=head2 method new-for-type ($type, *%attrs)
+
+Adds a new node for a type, with any attribute
+
+=head2 method as-dot (:$size)
+
+Renders as a dot document with the indicated size
+
+=head2 method to-dot-file ($file)
+
+Saves the dot representation to an actual file
+
+=head2 method to-file ($file, :$format = 'svg', :$size --> Promise:D)
+
+Runs C<dot> on the file, returning a C<Promise> so that it can be used
+asynchronously.
+
+=head2 method write-type-graph-images(:$type-graph, :$path, :$force) {
+
+Write the images to storage.
+
+=head2 sub viz-group($type)
+
+Return the group depending on the type
+
+=head2 sub viz-hints($group)
+
+Return the hints depending on the group
+
+=end pod
+
 unit class Doc::TypeGraph::Viz;
 
 has @.types;
