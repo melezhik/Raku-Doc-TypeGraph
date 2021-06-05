@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/antoniogamiz/Perl6-TypeGraph.svg?branch=master)](https://travis-ci.org/antoniogamiz/Perl6-TypeGraph)
+[![Test](https://github.com/JJ/Perl6-TypeGraph/actions/workflows/test.yaml/badge.svg)](https://github.com/JJ/Perl6-TypeGraph/actions/workflows/test.yaml)
 
 # NAME
 
