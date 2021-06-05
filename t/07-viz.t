@@ -22,7 +22,7 @@ sub testing-roundtrip($viz, $desc, *@checks) {
         }
     }, $desc;
 
-    unlink $_ for dir $path;
+#    unlink $_ for dir $path;
     rmdir $path;
 }
 
