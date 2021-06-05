@@ -1,7 +1,7 @@
 use v6;
 use Test;
 
-use Perl6::Type;
+use Doc::Type;
 
 plan *;
 
@@ -14,20 +14,20 @@ plan *;
 #   \ /
 #    F
 
-my $A = Perl6::Type.new(:name("A"));
+my $A = Doc::Type.new(:name("A"));
    $A.super = [];
 
-my $B = Perl6::Type.new(:name("B"));
+my $B = Doc::Type.new(:name("B"));
    $B.super = [$A];
-my $C = Perl6::Type.new(:name("C"));
+my $C = Doc::Type.new(:name("C"));
    $C.super = [$A];
 
-my $D = Perl6::Type.new(:name("D"));
+my $D = Doc::Type.new(:name("D"));
    $D.super = [$B, $C];
-my $E = Perl6::Type.new(:name("E"));
+my $E = Doc::Type.new(:name("E"));
    $E.super = [$B, $C];
 
-my $F = Perl6::Type.new(:name("F"));
+my $F = Doc::Type.new(:name("F"));
    $F.super = [$D, $E];
 
 subtest {

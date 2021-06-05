@@ -1,8 +1,8 @@
 use v6;
 use Test;
 
-use Perl6::TypeGraph::Decl;
-use Perl6::TypeGraph::DeclActions;
+use Doc::TypeGraph::Decl;
+use Doc::TypeGraph::DeclActions;
 
 plan *;
 
@@ -36,5 +36,5 @@ subtest {
 done-testing;
 
 sub parse( $str ) {
-    $g = Perl6::TypeGraph::Decl.parse($str, :actions(Perl6::TypeGraph::DeclActions.new)).actions;
+    $g = Doc::TypeGraph::Decl.parse($str, :actions(Doc::TypeGraph::DeclActions.new)).actions;
 }

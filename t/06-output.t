@@ -1,9 +1,9 @@
 use Test;
-use Perl6::TypeGraph;
+use Doc::TypeGraph;
 
 plan 1;
 
-my $tg = Perl6::TypeGraph.new-from-file;
+my $tg = Doc::TypeGraph.new-from-file;
 ok $tg.gist, "TypeGraph can be printed";
 
 done-testing;

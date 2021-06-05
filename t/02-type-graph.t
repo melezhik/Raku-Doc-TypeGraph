@@ -1,7 +1,7 @@
 use v6;
 use Test;
 
-use Perl6::TypeGraph;
+use Doc::TypeGraph;
 
 plan *;
 
@@ -11,7 +11,7 @@ my @types = ["Any", "Attribute", "Bool", "C", "C::A", "C::B", "C::C", "R", "R::A
 
 my $test-type-graph-file-path = "t/test-type-graph.txt"??"t/test-type-graph.txt"!!"test-type-graph.txt";
 
-my $tg = Perl6::TypeGraph.new-from-file($test-type-graph-file-path);
+my $tg = Doc::TypeGraph.new-from-file($test-type-graph-file-path);
 
 subtest {
     is-deeply $tg.types.values».categories.flat.unique.sort,
