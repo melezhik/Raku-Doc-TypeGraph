@@ -6,7 +6,7 @@ Perl6::TypeGraph - Parse a description of the types for documentation.
 
 # SYNOPSIS
 
-```perl6
+```Raku
 
     use Perl6::TypeGraph;
 
@@ -26,6 +26,10 @@ All types are represented using a `Perl6::Type` object. Categories are just
 descriptive and are not really used in the generation of graphs. They will
 probably be eliminated in later iterations of this library.
 
+# Installation
+
+You will need to have `graphviz` installed to generate the graphs; it uses
+ `dot` 
 # FILE SYNTAX
 
     [ Category ]
