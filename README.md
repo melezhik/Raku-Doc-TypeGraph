@@ -2,16 +2,16 @@
 
 # NAME
 
-Perl6::TypeGraph - Parse a description of the types for documentation.
+Doc::TypeGraph - Parse a description of the types for documentation.
 
 # SYNOPSIS
 
 ```Raku
 
-    use Perl6::TypeGraph;
+    use Doc::TypeGraph;
 
     # create and initialize it
-    my $tg = Perl6::TypeGraph.new-from-file("./resources/type-graph.txt");
+    my $tg = Doc::TypeGraph.new-from-file("./resources/type-graph.txt");
 
     # and use it!
     say $tg.sorted;
@@ -19,7 +19,7 @@ Perl6::TypeGraph - Parse a description of the types for documentation.
 
 # DESCRIPTION
 
-Perl6::Typegraph creates a graph of all types in a file that describes
+Doc::TypeGraph creates a graph of all types in a file that describes
 them. It gives you info about what classes a type inherits from and the roles it does. In addition, it also computes the inversion of this relations, which let you know what types inherit a given type and the types implementing a specific role.
 
 All types are represented using a `Perl6::Type` object. Categories are just
