@@ -5,14 +5,15 @@ use Test;
 use lib 'lib';
 use Doc::TypeGraph;
 
-plan 10;
+constant @types = <Array Allomorph Stringy Raku>;
+plan 7 + @types.elems;
 
 constant $tg-test = "resources/data/type-graph.txt";
 
 my $original-tg-file = $tg-test.IO.e??$tg-test!!"../$tg-test";
 my $t = Doc::TypeGraph.new-from-file($original-tg-file);
 ok $t, 'Could parse the file';
-for <Array Allomorph Stringy> -> $type {
+for @types -> $type {
     ok $t.types{$type}, 'has type ' ~ $type;
 }
 
