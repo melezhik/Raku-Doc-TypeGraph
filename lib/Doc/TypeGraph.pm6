@@ -77,7 +77,6 @@ has %.types;
 #| Sorted array of type names.
 has @.sorted;
 
-
 #| Initialize %.types from a file.
 method new-from-file($fn = "type-graph.txt") {
     my $filename = $fn.IO.e ?? $fn
@@ -88,7 +87,8 @@ method new-from-file($fn = "type-graph.txt") {
 }
 
 #| Parse the file (using the C<Decl> grammar) and initialize C<%.types> and
-#| C<@.sorted>
+#| C<@.sorted>. C<Any> will always be there, since any type (but Junctions)
+#| subclass it.
 method parse-from-file($fn) {
     my $f = open $fn;
 
