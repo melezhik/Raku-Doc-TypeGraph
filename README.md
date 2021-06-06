@@ -1,4 +1,4 @@
-[![Test](https://github.com/JJ/Perl6-TypeGraph/actions/workflows/test.yaml/badge.svg)](https://github.com/JJ/Perl6-TypeGraph/actions/workflows/test.yaml)
+[![Test](https://github.com/JJ/Raku-Doc-TypeGraph/actions/workflows/test.yaml/badge.svg)](https://github.com/JJ/Raku-Doc-TypeGraph/actions/workflows/test.yaml)
 
 # NAME
 
@@ -22,7 +22,7 @@ Doc::TypeGraph - Parse a description of the types for documentation.
 Doc::TypeGraph creates a graph of all types in a file that describes
 them. It gives you info about what classes a type inherits from and the roles it does. In addition, it also computes the inversion of this relations, which let you know what types inherit a given type and the types implementing a specific role.
 
-All types are represented using a `Perl6::Type` object. Categories are just
+All types are represented using a `Doc::Type` object. Categories are just
 descriptive and are not really used in the generation of graphs. They will
 probably be eliminated in later iterations of this library.
 
@@ -69,7 +69,7 @@ meaning)
 
 ### has Associative %.types
 
-Format: \$name => Perl6::Type.
+Format: \$name => Doc::Type.
 
 ### has Positional @.sorted
 
@@ -77,7 +77,7 @@ Sorted array of type names.
 
 ### method new-from-file
 
-```perl6
+```raku
 method new-from-file(
     $fn
 ) returns Mu
@@ -87,7 +87,7 @@ Initialize %.types from a file.
 
 ### method parse-from-file
 
-```perl6
+```raku
 method parse-from-file(
     $fn
 ) returns Mu
@@ -97,11 +97,11 @@ Parse the file (using the Decl grammar) and initialize %.types and @.sorted
 
 ### method topo-sort
 
-```perl6
+```raku
 method topo-sort() returns Mu
 ```
 
-This method takes all Perl6::Type objects in `%.types` and sort them
+This method takes all Doc::Type objects in `%.types` and sort them
 by its name. After that, recursively, add all roles and supers in the
 object to `@!sorted` 
 
@@ -111,6 +111,7 @@ Moritz Lenz <@moritz> Antonio Gámiz <@antoniogamiz>
 
 # COPYRIGHT AND LICENSE
 
-This module is a spin-off from the Official Doc repo, if you want to see the past changes go to the [official doc](https://github.com/perl6/doc).
+This module is a spin-off from the Official Doc repo, if you want to see the 
+past changes go to the [official doc](https://github.com/Raku/doc).
 
 Copyright 2019 Moritz and Antonio This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.

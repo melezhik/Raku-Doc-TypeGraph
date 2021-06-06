@@ -2,7 +2,7 @@
   "authors": [
     "AntonioGamiz",
     "moritz",
-    "Perl6"
+    "Raku team"
   ],
   "build-depends": [],
   "auth": "github:JJ",

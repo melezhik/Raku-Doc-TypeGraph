@@ -52,7 +52,6 @@ testing-roundtrip($viz, "Add one", $path, "type-graph-D.svg",
         *.contains('"D"') );
 testing-roundtrip($viz, "Add one", $path, $any-type-graph, *.contains('"D"') );
 
-
 # unlink $_ for dir $path;
 # rmdir $path;
 
