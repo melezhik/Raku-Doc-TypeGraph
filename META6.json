@@ -7,7 +7,7 @@
   "build-depends": [],
   "auth": "github:JJ",
   "api": "2",
-  "depends": [],
+  "depends": ["dot:from<bin>"],
   "description": "Parse a type graph description file",
   "license": "Artistic-2.0",
   "name": "Doc::TypeGraph",
