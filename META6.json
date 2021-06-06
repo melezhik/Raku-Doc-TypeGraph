@@ -2,6 +2,7 @@
   "authors": [
     "AntonioGamiz",
     "moritz",
+    "JJ Merelo",
     "Raku team"
   ],
   "build-depends": [],
@@ -11,7 +12,7 @@
   "description": "Parse a type graph description file",
   "license": "Artistic-2.0",
   "name": "Doc::TypeGraph",
-  "perl": "6.d",
+  "raku": "6.d",
   "provides": {
     "Doc::Type": "lib/Doc/Type.pm6",
     "Doc::TypeGraph": "lib/Doc/TypeGraph.pm6",
@@ -31,5 +32,5 @@
   "test-depends": [
     "Test::META"
   ],
-  "version": "2.2"
+  "version": "2.2.1"
 }
