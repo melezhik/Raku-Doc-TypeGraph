@@ -182,24 +182,25 @@ method to-file ($file, :$format = 'svg', :$size --> Promise:D) {
 
 
 method write-type-graph-images(:$type-graph, :$path, :$force) {
-    unless $force {
-        my $dest = "{$path}/type-graph-Any.svg".IO;
-        if $dest.e {
-            say "Not writing type graph images, it seems to be up-to-date";
-            say "To force writing of type graph images, supply the --force";
-            say "option at the command line, or delete";
-            say "file 'html/images/type-graph-Any.svg'";
-            return;
-        }
-    }
-
 
     for $type-graph.sorted -> $type {
         FIRST my @type-graph-images;
 
+        my $this-path = "{$path}/type-graph-$type.svg";
+
+        my $dest = $this-path.IO;
+        if $dest.e and ! $force {
+           say qq:to/EOT/;
+Not writing image for $this-path, it seems to be up-to-date
+To force writing of type graph images, supply the --force option at the
+command line, or delete file 'html/images/type-graph-$type.svg'";
+EOT
+            next;
+        }
+
         my $viz = Doc::TypeGraph::Viz.new-for-type($type,
                 :$!class-color, :$!enum-color, :$!role-color, :$!bg-color, :$!node-style);
-        @type-graph-images.push: $viz.to-file("$path/type-graph-{$type}.svg", format => 'svg');
+        @type-graph-images.push: $viz.to-file($this-path, format => 'svg');
 
         LAST await @type-graph-images;
     }

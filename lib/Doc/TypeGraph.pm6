@@ -87,7 +87,8 @@ method new-from-file($fn = "type-graph.txt") {
     $n;
 }
 
-#| Parse the file (using the Decl grammar) and initialize %.types and @.sorted
+#| Parse the file (using the C<Decl> grammar) and initialize C<%.types> and
+#| C<@.sorted>
 method parse-from-file($fn) {
     my $f = open $fn;
 
