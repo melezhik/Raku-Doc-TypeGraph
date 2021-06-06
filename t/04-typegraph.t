@@ -5,14 +5,17 @@ use Test;
 use lib 'lib';
 use Doc::TypeGraph;
 
-plan 8;
+plan 10;
 
 constant $tg-test = "resources/data/type-graph.txt";
 
 my $original-tg-file = $tg-test.IO.e??$tg-test!!"../$tg-test";
 my $t = Doc::TypeGraph.new-from-file($original-tg-file);
 ok $t, 'Could parse the file';
-ok $t.types<Array>, 'has type Array';
+for <Array Allomorph Stringy> -> $type {
+    ok $t.types{$type}, 'has type ' ~ $type;
+}
+
 ok $t.types<Array>.super.any eq 'List',
     'Array has List as a superclass';
 ok $t.types<List>.roles.any eq 'Positional',
