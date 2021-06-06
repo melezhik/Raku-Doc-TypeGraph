@@ -7,7 +7,9 @@ use Doc::TypeGraph;
 
 plan 8;
 
-my $original-tg-file = "resources/data/type-graph.txt"??"resources/data/type-graph.txt"!!"../resources/data/type-graph.txt";
+constant $tg-test = "resources/data/type-graph.txt";
+
+my $original-tg-file = $tg-test.IO.e??$tg-test!!"../$tg-test";
 my $t = Doc::TypeGraph.new-from-file($original-tg-file);
 ok $t, 'Could parse the file';
 ok $t.types<Array>, 'has type Array';

@@ -1,0 +1,30 @@
+[Metamodel]
+# metamodel
+class C
+class C::A
+class C::B           is C
+class C::C           is C is C::A
+class D
+
+[Domain-specific]
+# domain
+class Attribute
+
+[Basic]
+# basic
+enum  Bool
+
+[Composite]
+# composite
+class Seq
+
+[Exceptions]
+# exceptions
+role  R
+role  R::A
+role  R::B           does R
+role  R::C           does R does R::A
+
+[Core]
+# core
+module Test
