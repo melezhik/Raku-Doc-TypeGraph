@@ -147,8 +147,6 @@ method parse-from-file($fn) {
         }
     }
 
-
-
     # this for loop initializes sub and doers attributes
     # of every Doc::Type object in %.types in order to
     # cache the inversion of all type relationships

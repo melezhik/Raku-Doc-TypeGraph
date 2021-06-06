@@ -6,7 +6,7 @@ unit class Doc::Type;
 
 =head1 NAME
 
-Doc::Type - Parse a file and returns a type graph.
+Doc::Type - Used to represent different types in a typegraph
 
 =head1 SYNOPSIS
 
@@ -24,7 +24,7 @@ Doc::Type - Parse a file and returns a type graph.
 
 =head1 DESCRIPTION
 
-Doc::Typegraph represents a type in the Raku language. It stores
+C<Doc::Type> represents a type in the Raku language. It stores
 its parent classes and the role it's implementing. In addition, it also
 stores the inverted relation, that's to say: all types inheriting from
 this one, and if it's a role, all types implementing it.
@@ -63,7 +63,7 @@ has @.categories;
 #| Method Resolution Order (MRO) of the type.
 has @.mro;
 
-#| Computes the MRO and store it in @.mro.
+#| Computes the MRO and stores it in @.mro.
 method mro(Doc::Type:D:) {
     # do not recompute mro
     return @!mro if @!mro;
