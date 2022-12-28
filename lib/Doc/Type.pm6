@@ -36,11 +36,11 @@ Antonio Gámiz <@antoniogamiz>
 
 =head1 COPYRIGHT AND LICENSE
 
-This module has been spun off from the Official Doc repo, if you want to see the
-past changes go
-to the L<official doc|https://github.com/Raku/doc>.
+This module has been spun off from the L<official Raku
+documentation repository|https://github.com/Raku/doc>, check it out for past
+history of this code..
 
-Copyright 2019 Moritz and Antonio
+Copyright 2019 Moritz and Antonio Gámiz.
 This library is free software; you can redistribute it and/or modify
 it under the Artistic License 2.0.
 
@@ -94,12 +94,13 @@ method c3_merge(@merge_list) {
         my $rejected = 0;
         my $cand_class = @cand_list[0];
         $cand_count++;
-        # search cyclic inheritance. If it's found
-        # then reject the candidate
+        # search cyclic inheritance. If it's found then reject the candidate
         for @merge_list {
+            say "List $_";
             next if $_ === @cand_list;
             for 1..+$_ -> $cur_pos {
                 if $_[$cur_pos] === $cand_class {
+                    say "$cur_pos, $cand_class";
                     $rejected = 1;
                     last;
                 }

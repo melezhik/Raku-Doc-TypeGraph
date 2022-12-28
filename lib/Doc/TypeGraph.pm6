@@ -2,6 +2,8 @@ use Doc::Type;
 use Doc::TypeGraph::Decl;
 use Doc::TypeGraph::DeclActions;
 
+constant BASE_CLASS = "Any";
+
 unit class Doc::TypeGraph;
 
 =begin pod
@@ -92,7 +94,7 @@ method new-from-file($fn = "type-graph.txt") {
 method parse-from-file($fn) {
     my $f = open $fn;
 
-    %!types{"Any"} = Doc::Type.new(:name("Any"));
+    %!types{BASE_CLASS} = Doc::Type.new(:name(BASE_CLASS));
 
     my @categories;
     for $f.lines -> $l {
@@ -143,7 +145,7 @@ method parse-from-file($fn) {
         }
 
         # non-roles default to superclass Any
-        if $t.packagetype ne 'role' && !$t.super && $t ne 'Mu' && $t.name ne "Any" {
+        if $t.packagetype ne 'role' && !$t.super && $t ne 'Mu' && $t.name ne BASE_CLASS {
             $t.super.append: %!types<Any>;
         }
     }
