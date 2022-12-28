@@ -6,7 +6,7 @@
     "Raku team"
   ],
   "build-depends": [],
-  "auth": "github:JJ",
+  "auth": "zef:jjmerelo",
   "api": "2",
   "depends": ["dot:from<bin>"],
   "description": "Parse a type graph description file",
@@ -32,5 +32,5 @@
   "test-depends": [
     "Test::META:ver<0.0.17+>"
   ],
-  "version": "2.2.1"
+  "version": "2.2.1.1"
 }
